@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "sourceVersion": "0.1.3",
+  "platformTested": "macOS arm64",
+  "liveValidationDate": "2026-10-18",
+  "liveValidationScope": "Synthetic text requests, CC Switch routing and Accio gateway-returned original model metadata",
+  "privacy": "Positive-whitelist summary; no credentials, account IDs, personal paths, traces, balances, billing, raw events or chat records",
+  "models": [
+    {
+      "alias": "claude-haiku-4-5",
+      "cloudDeclaredModel": "claude-haiku-4-5-20251001",
+      "correctSyntheticReply": true,
+      "cloudModelMatchesRequested": true,
+      "bedrockMetricsPresent": true
+    },
+    {
+      "alias": "claude-haiku-5-5",
+      "cloudDeclaredModel": "claude-haiku-5-5",
+      "correctSyntheticReply": true,
+      "cloudModelMatchesRequested": true,
+      "bedrockMetricsPresent": false
+    },
+    {
+      "alias": "claude-sonnet-5",
+      "cloudDeclaredModel": "claude-sonnet-5",
+      "correctSyntheticReply": true,
+      "cloudModelMatchesRequested": true,
+      "bedrockMetricsPresent": true
+    },
+    {
+      "alias": "claude-opus-5",
+      "cloudDeclaredModel": "claude-opus-5",
+      "correctSyntheticReply": true,
+      "cloudModelMatchesRequested": true,
+      "bedrockMetricsPresent": true
+    },
+    {
+      "alias": "claude-opus-5-5",
+      "cloudDeclaredModel": "claude-opus-5-5",
+      "correctSyntheticReply": true,
+      "cloudModelMatchesRequested": true,
+      "bedrockMetricsPresent": true
+    },
+    {
+      "alias": "claude-sonnet-4-6",
+      "cloudDeclaredModel": "claude-sonnet-4-6",
+      "correctSyntheticReply": true,
+      "cloudModelMatchesRequested": true,
+      "bedrockMetricsPresent": false
+    },
+    {
+      "alias": "claude-opus-4-8",
+      "cloudDeclaredModel": "claude-opus-4-8",
+      "correctSyntheticReply": true,
+      "cloudModelMatchesRequested": true,
+      "bedrockMetricsPresent": true
+    },
+    {
+      "alias": "claude-fable-5-1",
+      "cloudDeclaredModel": "claude-fable-5-1",
+      "correctSyntheticReply": true,
+      "cloudModelMatchesRequested": true,
+      "bedrockMetricsPresent": true
+    },
+    {
+      "alias": "claude-opus-4-7",
+      "cloudDeclaredModel": "claude-opus-4-7",
+      "correctSyntheticReply": true,
+      "cloudModelMatchesRequested": true,
+      "bedrockMetricsPresent": true
+    },
+    {
+      "alias": "claude-fable-5",
+      "cloudDeclaredModel": "claude-fable-5",
+      "correctSyntheticReply": true,
+      "cloudModelMatchesRequested": true,
+      "bedrockMetricsPresent": true
+    }
+  ],
+  "independentVendorBackendAudit": false,
+  "hiddenCloudSystemPromptVerified": false,
+  "fullCapabilityBenchmark": false,
+  "limits": [
+    "Another machine or account has not been live-tested by this package build",
+    "Cowork, long context and all desktop tool capabilities are not comprehensively verified"
+  ],
+  "offlineTests": {
+    "passed": 48,
+    "failed": 0,
+    "bridgeTests": 42,
+    "ccSwitchUsageTests": 6,
+    "usesSyntheticInputs": true,
+    "externalNetworkCalls": false
+  },
+  "distributionRevision": 2,
+  "ccSwitchUsageQuery": {
+    "configurationDate": "2026-10-18",
+    "nativeVersionTested": "4.0.15",
+    "nativeScriptTestApps": [
+      "Claude Code",
+      "Claude Desktop"
+    ],
+    "nativeScriptTestsPassed": true,
+    "autoQueryIntervalMinutes": 1,
+    "timeoutSeconds": 30,
+    "inheritsProviderCredentials": true,
+    "personalOrAccountConfigurationIncluded": false,
+    "rawQuotaSnapshotsIncluded": false,
+    "automaticTimerCadenceIndependentlyMeasured": false,
+    "templateFiles": [
+      "examples/cc-switch/accio-usage-query.js",
+      "examples/cc-switch/usage-script.json"
+    ]
+  }
+}

@@ -1,0 +1,188 @@
+{
+  "schemaVersion": 1,
+  "project": "accio-local-api",
+  "version": "0.2.0",
+  "distribution": "sanitized cross-platform source snapshot",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 19,
+      "sha256": "d60f352d0db1404c70afb4bb8b2ca3fd1c610572aa40720e8a0b7baa7885418c"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 259,
+      "sha256": "5c8af838965a6cab62ab445eac1f51283457f9d86e8ceebb482b6f6629d5644e"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "bytes": 514,
+      "sha256": "a99ef8f6e29f5c6a3a9ed8e46fa73183a3f290d1239ea4a2bfd6b1c44936f358"
+    },
+    {
+      "path": "docs/CC-SWITCH-USAGE.md",
+      "bytes": 3723,
+      "sha256": "f9ed881701065e31fc19fb427f8104eb428a3d917e033356d2b66b0170d55f73"
+    },
+    {
+      "path": "docs/PROTOCOL-NOTES.md",
+      "bytes": 4360,
+      "sha256": "42ab720e532d4d98ed3575b3a897a89e4b017582ead8d9fcf562564c0bda9373"
+    },
+    {
+      "path": "docs/RELEASE-VALIDATION.md",
+      "bytes": 1292,
+      "sha256": "a5724505fca2c6a2e4fd69d452c73a3ce2ac862003c63cfdc1704121f949ba2a"
+    },
+    {
+      "path": "docs/VALIDATION.json",
+      "bytes": 3638,
+      "sha256": "d97e0971dd2441f438f73fc3d3a59af08ad08a4d994155b0d5d077be7fe69de4"
+    },
+    {
+      "path": "examples/cc-switch/accio-usage-query.js",
+      "bytes": 1077,
+      "sha256": "2a6a0876cfd0a4bd32aa4baadcec7de668ac86b7a2cbdc31dda2dee4aa12cc07"
+    },
+    {
+      "path": "examples/cc-switch/usage-script.json",
+      "bytes": 1274,
+      "sha256": "ea86a96ee90b5dfc6ad5214909fe231c5b08bd105ba200fd6d21c70b28b28d24"
+    },
+    {
+      "path": "EXCLUSIONS.md",
+      "bytes": 1630,
+      "sha256": "13d78b93cc4af79bc0a2718d27a6a97b09be3eae4d1eb3e19d878ba4317ba67e"
+    },
+    {
+      "path": "install-mac.mjs",
+      "bytes": 4007,
+      "sha256": "e41abcd04297cec86a9b163ee4724a058e9052fd8f598a8611b20a7034bfc178"
+    },
+    {
+      "path": "install-windows.ps1",
+      "bytes": 3016,
+      "sha256": "cca1965c45237682d52e0993ea561cdac89881c7c5c4394584b916ca9fa3674a"
+    },
+    {
+      "path": "login-windows.ps1",
+      "bytes": 893,
+      "sha256": "ad83b0fffa68245868b1e37998362cc3d2933d203ade4759a85f6f42202cbe93"
+    },
+    {
+      "path": "package.json",
+      "bytes": 333,
+      "sha256": "86e0e5056b76f3d0b9fcaceb92cd55229bb086359d7f76e8cdff3577454b1a62"
+    },
+    {
+      "path": "README-WINDOWS.md",
+      "bytes": 2069,
+      "sha256": "cb6c29bfa502761552886625b8322ca0e55dca11434e2b8d04ef709926171f10"
+    },
+    {
+      "path": "README.md",
+      "bytes": 8658,
+      "sha256": "0f7d20dd1b25abd39ef0c6c43bc223f85f3c91a4196bc15c3fd04426d66fc6a0"
+    },
+    {
+      "path": "scripts/probe-cloud-models.mjs",
+      "bytes": 7926,
+      "sha256": "ca42846c0d1712a4a318b79b4a6c7f0a7dd24bd96c8625704a667a923d6c1957"
+    },
+    {
+      "path": "src/accio.mjs",
+      "bytes": 7441,
+      "sha256": "a796f724e8560ddf74d42d3df2d02ba6f513d8d4de8ba63bb37fab9d5297d269"
+    },
+    {
+      "path": "src/auth.mjs",
+      "bytes": 10840,
+      "sha256": "1fc873bdb3515993cc303c5ba6c7bc4218b58a747f7c5b78ce608c6ffbd2e556"
+    },
+    {
+      "path": "src/cli.mjs",
+      "bytes": 948,
+      "sha256": "fe990888bd8c80de8a1fe69d4e464ad7188c8747422dcd415399f831b104f0a0"
+    },
+    {
+      "path": "src/keychain.py",
+      "bytes": 2464,
+      "sha256": "f51adcc21cdf904020974d78439e93300b5fec7c0e35032098af6f5d6acd2801"
+    },
+    {
+      "path": "src/native-signing.cjs",
+      "bytes": 3113,
+      "sha256": "2687e6502b733a1db78323b96c46e4ac0410f6b5088f2aa192dd96f8726bf635"
+    },
+    {
+      "path": "src/protocol.mjs",
+      "bytes": 12767,
+      "sha256": "bd40115820f32cfa8b405c6fd273e95d2be360d720deac7919138a90731d9e35"
+    },
+    {
+      "path": "src/server.mjs",
+      "bytes": 13175,
+      "sha256": "651d0b18aa4ab999c4ebaa78d6a16e6a6717c8e889417f334f3e5dc721e4f09e"
+    },
+    {
+      "path": "src/signing.mjs",
+      "bytes": 3313,
+      "sha256": "be9e6aedf229f6df142ac48ddac385a0c3c0521e12e71f27a6092ab074f471c4"
+    },
+    {
+      "path": "src/windows-store.ps1",
+      "bytes": 1566,
+      "sha256": "fc61bf8290960a95ce032fbc7b40e1fdd45076dc87eab4997482dba257e7ede7"
+    },
+    {
+      "path": "start-windows.ps1",
+      "bytes": 1569,
+      "sha256": "8ac5349228495d8449b4a5370dc3b9e49c134e741aa4df744cbb940fcb51f06e"
+    },
+    {
+      "path": "stop-windows.ps1",
+      "bytes": 696,
+      "sha256": "1e2578a818df6ebe54d6220374e71beeb8527534e4bba27c5b021638a5c740a2"
+    },
+    {
+      "path": "test/auth-recovery.test.mjs",
+      "bytes": 5560,
+      "sha256": "6a02bdab9029eb08a0d990318ed1d42b360bf1d02e94af498a1f29f4fb9b6568"
+    },
+    {
+      "path": "test/bridge.test.mjs",
+      "bytes": 23334,
+      "sha256": "8b3fdbec56917dbb528605d8f680bab6b075386d50a688e15cadae4582a5004b"
+    },
+    {
+      "path": "test/cc-switch-usage.test.mjs",
+      "bytes": 3462,
+      "sha256": "05bc967a73c3de91d190932b1ea2f48c9026b0d448c29a88b176144a90c2b562"
+    },
+    {
+      "path": "test/concurrency.test.mjs",
+      "bytes": 2271,
+      "sha256": "b5bba18496e8224cf7fa97cae2a82652c95fd61071b6b801a16fba6794e5785d"
+    },
+    {
+      "path": "test/live-smoke.mjs",
+      "bytes": 2961,
+      "sha256": "30bc10d1c9b6adff38132b05a18e5cbbd119a59fe579e4d8cfbc060e6cc799ca"
+    },
+    {
+      "path": "test/live-tool-smoke.mjs",
+      "bytes": 3850,
+      "sha256": "578fac68255631926a15225632a19a09d24689f2361479f882c990e3895373e0"
+    },
+    {
+      "path": "test/signing-concurrency.test.mjs",
+      "bytes": 3352,
+      "sha256": "ffe55af23d48780a319a250c33ed8b368a5b0635c6323f1f7f891b3ef69d051d"
+    },
+    {
+      "path": "test/windows.test.mjs",
+      "bytes": 2080,
+      "sha256": "8f3d7ecb5cb650c00315c708272d1f741d7c180771ccd0ac4b394eaa0d09de22"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "enabled": true,
+  "language": "javascript",
+  "code": "({\n  request: {\n    url: \"{{baseUrl}}\".replace(/\\/+$/, \"\").replace(/\\/v1$/, \"\") + \"/quota\",\n    method: \"GET\",\n    headers: { \"Authorization\": \"Bearer {{apiKey}}\" }\n  },\n  extractor: function(response) {\n    var valid = response &&\n      (response.scope === \"team\" || response.scope === \"personal\") &&\n      Number.isFinite(response.totalCredits) && response.totalCredits >= 0 &&\n      Number.isFinite(response.usedCredits) && response.usedCredits >= 0 &&\n      Number.isFinite(response.remainingCredits) && response.remainingCredits >= 0;\n    if (!valid) {\n      return {\n        isValid: false,\n        invalidMessage: response && response.error && response.error.message || \"Accio 额度查询失败\"\n      };\n    }\n    return {\n      isValid: true,\n      planName: response.scope === \"team\" ? \"Accio 团队订阅\" : \"Accio 个人订阅\",\n      remaining: response.remainingCredits,\n      used: response.usedCredits,\n      total: response.totalCredits,\n      unit: \"积分\",\n      extra: \"已用 \" + response.usedCredits + \" / 总额 \" + response.totalCredits\n    };\n  }\n})",
+  "timeout": 30,
+  "templateType": "general",
+  "autoQueryInterval": 1
+}
