@@ -11,10 +11,12 @@ CC Switch 示例仅包含查询表达式和通用参数：密钥与地址为运�
 - API Key、OAuth access/refresh token、Cookie、签名、钥匙串内容和任何原生认证文件。
 - 本机 Accio / Claude / CC Switch / Codex / DSH 的配置、数据库、账号、空间文件、登录态或授权中心数据。
 - 真实账号/团队/设备标识、邮箱、个人绝对路径、额度数、账单、聊天、日志、截图、原始抓包与测试回执。
-- Accio 官方安装包、应用二进制、原生模块、ASAR、拆包/反编译源码及第三方桥接项目源码。
-- 与 Accio 通用接入无关的 DSH / Codex 账号接入代码及业务项目。
+- Accio 官方安装包、应用二进制、原生模块、ASAR、拆包/反编译源码。
+- 与本项目无关的 DSH / Codex 账号接入代码及业务项目；不包含 Codex 令牌提取或复制代码。
 - Git 历史、缓存、备份、node_modules、构建环境或本机安装目录。
 
 测试代码中的凭据和空间名均为合成样例。官方公共协议常量、通用本机路径模板和模型别名属于运行所需信息。
+
+0.3.0 的可选 `integrations/codex-image` 是明确纳入分发的工具模块，复用 qiaomu-codex-imagegen 的 MIT 核心及 stdio framing，保留 LICENSE 和 PROVENANCE.txt。只分发所需源码和合成测试，不复制其完整模板库，也不附带任何用户的 Codex/Claude 配置、登录态、任务状态或生成图片。`bridge.example.json` 为通用示例，实际 `bridge.json`、`state/`、`output/` 均被忽略。
 
 使用者在自己的电脑上安装后，会生成自己的 Key、日志和登录凭据；这些运行数据不属于项目源码，也不应再加入仓库。源码快照包含文件和 SHA-256 清单；公开副本从审核快照建立新的 Git 历史，私有仓库保留原历史。

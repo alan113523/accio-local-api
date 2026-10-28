@@ -11,6 +11,7 @@ import { AccioClient } from './accio.mjs';
 import { convertRequest, Completion } from './protocol.mjs';
 
 const installSettingsPath = new URL('../windows-install.json', import.meta.url);
+const API_VERSION = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version;
 const installedStateDirectory = process.platform === 'win32' && existsSync(installSettingsPath)
   ? JSON.parse(readFileSync(installSettingsPath, 'utf8')).stateDirectory : undefined;
 export const STATE_DIR = process.env.ACCIO_API_STATE_DIR || installedStateDirectory || (process.platform === 'win32'
@@ -72,7 +73,7 @@ export function createApi({ key, auth, client, timeoutMs = 120000, concurrency =
       if (![`127.0.0.1:${port}`, `localhost:${port}`].includes(req.headers.host)) throw new ApiError(403, 'invalid_host', 'Use the localhost API address');
       const url = new URL(req.url, `http://127.0.0.1:${port}`);
       protocol = url.pathname === '/v1/messages' ? 'anthropic' : 'openai';
-      if (url.pathname === '/health' && req.method === 'GET') return json(res, 200, { status: 'running', version: '0.1.3' });
+      if (url.pathname === '/health' && req.method === 'GET') return json(res, 200, { status: 'running', version: API_VERSION });
       if (url.pathname === '/auth/callback' && req.method === 'GET') {
         let location = '/auth/error';
         try {
@@ -184,7 +185,7 @@ export async function main() {
   const auth = new AccioAuth(); await auth.init();
   const server = createApi({ key, auth, client: new AccioClient(auth) });
   await new Promise((resolve, reject) => { server.once('error', reject); server.listen(PORT, '127.0.0.1', resolve); });
-  console.log(`Accio Local API 0.1.1 listening on http://127.0.0.1:${PORT}`);
+  console.log(`Accio Local API ${API_VERSION} listening on http://127.0.0.1:${PORT}`);
   for (const signal of ['SIGTERM', 'SIGINT']) process.once(signal, () => { server.close(); server.closeAllConnections(); setTimeout(() => process.exit(0), 100).unref(); });
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) main().catch(error => { console.error(error instanceof ApiError ? error.message : 'Accio Local API startup failed'); process.exitCode = 1; });

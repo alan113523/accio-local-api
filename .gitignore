@@ -28,3 +28,6 @@ windows-install.json
 *.dpapi
 *.pid
 *.lnk
+integrations/codex-image/bridge.json
+integrations/codex-image/output/
+integrations/codex-image/test/run-*/

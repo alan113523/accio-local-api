@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "project": "accio-local-api",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "distribution": "sanitized cross-platform source snapshot",
   "files": [
     {
@@ -11,13 +11,28 @@
     },
     {
       "path": ".gitignore",
-      "bytes": 259,
-      "sha256": "5c8af838965a6cab62ab445eac1f51283457f9d86e8ceebb482b6f6629d5644e"
+      "bytes": 366,
+      "sha256": "026866d45822a93b32dfb8476ceb40baa55ef40c5c5eb1476a35cdc41d77a907"
     },
     {
       "path": "CHANGELOG.md",
-      "bytes": 514,
-      "sha256": "a99ef8f6e29f5c6a3a9ed8e46fa73183a3f290d1239ea4a2bfd6b1c44936f358"
+      "bytes": 1217,
+      "sha256": "e1609ebe1c55216375ed8273d38ffec90fa3065e9b6160598ec2d124422f09fa"
+    },
+    {
+      "path": "EXCLUSIONS.md",
+      "bytes": 2079,
+      "sha256": "8cf4bef32a244a3128e2fa6263d1a2623033d7fe8868681b977c1a5aaa8c0d85"
+    },
+    {
+      "path": "README-WINDOWS.md",
+      "bytes": 2069,
+      "sha256": "cb6c29bfa502761552886625b8322ca0e55dca11434e2b8d04ef709926171f10"
+    },
+    {
+      "path": "README.md",
+      "bytes": 10414,
+      "sha256": "59fdce56b0bb5ac059700f21502f1185f606345d1387151d8bb67b4182323bc1"
     },
     {
       "path": "docs/CC-SWITCH-USAGE.md",
@@ -26,13 +41,13 @@
     },
     {
       "path": "docs/PROTOCOL-NOTES.md",
-      "bytes": 4360,
-      "sha256": "42ab720e532d4d98ed3575b3a897a89e4b017582ead8d9fcf562564c0bda9373"
+      "bytes": 4847,
+      "sha256": "4d4e3f1fa2f9b16638a3c1bee3199326f09e27c73c65bb3a511acffbfb5277bc"
     },
     {
       "path": "docs/RELEASE-VALIDATION.md",
-      "bytes": 1292,
-      "sha256": "a5724505fca2c6a2e4fd69d452c73a3ce2ac862003c63cfdc1704121f949ba2a"
+      "bytes": 3066,
+      "sha256": "c4d616caa0d4b1e8c38fefb7bfb3e4b31f0fd5f0c2e06f6a34238a433798b08e"
     },
     {
       "path": "docs/VALIDATION.json",
@@ -50,19 +65,74 @@
       "sha256": "ea86a96ee90b5dfc6ad5214909fe231c5b08bd105ba200fd6d21c70b28b28d24"
     },
     {
-      "path": "EXCLUSIONS.md",
-      "bytes": 1630,
-      "sha256": "13d78b93cc4af79bc0a2718d27a6a97b09be3eae4d1eb3e19d878ba4317ba67e"
-    },
-    {
       "path": "install-mac.mjs",
-      "bytes": 4007,
-      "sha256": "e41abcd04297cec86a9b163ee4724a058e9052fd8f598a8611b20a7034bfc178"
+      "bytes": 4025,
+      "sha256": "6812fcce2ad8c5e4708d9ff1e31f47eb2fc81f53099829d67ce2a3d58cd485a4"
     },
     {
       "path": "install-windows.ps1",
       "bytes": 3016,
       "sha256": "cca1965c45237682d52e0993ea561cdac89881c7c5c4394584b916ca9fa3674a"
+    },
+    {
+      "path": "integrations/codex-image/LICENSE",
+      "bytes": 1063,
+      "sha256": "6d48a0e65735f2672fc914bab66632af172e08eb499e6fc34fb6fadbeab567e4"
+    },
+    {
+      "path": "integrations/codex-image/PROVENANCE.txt",
+      "bytes": 708,
+      "sha256": "6113aa1e8f8e30a37d84cd23c00a93b5f27cf42d24bdc2f67ab5845dc2338cda"
+    },
+    {
+      "path": "integrations/codex-image/README.md",
+      "bytes": 4399,
+      "sha256": "1d62da8b59ffe3e8a68cc4af3c7cec6800aac73f4577402911325f3dee928f2e"
+    },
+    {
+      "path": "integrations/codex-image/bridge.example.json",
+      "bytes": 103,
+      "sha256": "afaf936138d6201a577d3b3040b1d12d93bb37130ad85bb2f031b6c4be874eed"
+    },
+    {
+      "path": "integrations/codex-image/package.json",
+      "bytes": 212,
+      "sha256": "2d7c9fc29f8adcdcd2c71a2361185704e1c63dab2316907cad3ddbc97dbf5fd1"
+    },
+    {
+      "path": "integrations/codex-image/src/codex.mjs",
+      "bytes": 12701,
+      "sha256": "f6b7687acb02dc981171a1b1cac96de958bf77306960fa61af145e1c756e125f"
+    },
+    {
+      "path": "integrations/codex-image/src/jobs.mjs",
+      "bytes": 6820,
+      "sha256": "0191f04e6269255aab3f7a6b5bff25d3258584f1146cada6c58fa63c60ae78f0"
+    },
+    {
+      "path": "integrations/codex-image/src/mcp-server.mjs",
+      "bytes": 1712,
+      "sha256": "3ad185a73f739d857807a6b83800d55b6856a393a25d9674a1176a763395f502"
+    },
+    {
+      "path": "integrations/codex-image/src/settings.mjs",
+      "bytes": 757,
+      "sha256": "0ee2cfd94ce8764ed21ee4703955cd5b477b81b217d8cdff82ad9120a57783d0"
+    },
+    {
+      "path": "integrations/codex-image/test/bridge.test.mjs",
+      "bytes": 5618,
+      "sha256": "7b85323f934eaa33f05b5499575b03b9917b5851f52802543385a212425228ef"
+    },
+    {
+      "path": "integrations/codex-image/test/fake-codex.mjs",
+      "bytes": 1397,
+      "sha256": "931fb4a93ae218b66a1e7d1f988d153fd19ac75cc30ee99989747ca213663b3f"
+    },
+    {
+      "path": "integrations/codex-image/test/settings.test.mjs",
+      "bytes": 1328,
+      "sha256": "0c67dded747d551ed6e806c0ca4c28c833e79a8831508f5e3db64ed01e949530"
     },
     {
       "path": "login-windows.ps1",
@@ -71,18 +141,8 @@
     },
     {
       "path": "package.json",
-      "bytes": 333,
-      "sha256": "86e0e5056b76f3d0b9fcaceb92cd55229bb086359d7f76e8cdff3577454b1a62"
-    },
-    {
-      "path": "README-WINDOWS.md",
-      "bytes": 2069,
-      "sha256": "cb6c29bfa502761552886625b8322ca0e55dca11434e2b8d04ef709926171f10"
-    },
-    {
-      "path": "README.md",
-      "bytes": 8658,
-      "sha256": "0f7d20dd1b25abd39ef0c6c43bc223f85f3c91a4196bc15c3fd04426d66fc6a0"
+      "bytes": 374,
+      "sha256": "6b78b0b35459b3108bc0fa3bf7b22c1f8aaaa5c5f06c5bc0b2d35cd3db7ad296"
     },
     {
       "path": "scripts/probe-cloud-models.mjs",
@@ -105,6 +165,11 @@
       "sha256": "fe990888bd8c80de8a1fe69d4e464ad7188c8747422dcd415399f831b104f0a0"
     },
     {
+      "path": "src/images.mjs",
+      "bytes": 2283,
+      "sha256": "e9824b9000b67de1ddf63ec9872fc8993c8b1dcde3f4a9563a2201f4c6767ea3"
+    },
+    {
       "path": "src/keychain.py",
       "bytes": 2464,
       "sha256": "f51adcc21cdf904020974d78439e93300b5fec7c0e35032098af6f5d6acd2801"
@@ -116,13 +181,13 @@
     },
     {
       "path": "src/protocol.mjs",
-      "bytes": 12767,
-      "sha256": "bd40115820f32cfa8b405c6fd273e95d2be360d720deac7919138a90731d9e35"
+      "bytes": 14879,
+      "sha256": "b3298a9f58952859772c32424130be10c0aa77a7a76711eb20d691d051e60d46"
     },
     {
       "path": "src/server.mjs",
-      "bytes": 13175,
-      "sha256": "651d0b18aa4ab999c4ebaa78d6a16e6a6717c8e889417f334f3e5dc721e4f09e"
+      "bytes": 13295,
+      "sha256": "a5f3a3f3a9d8371092ac9db8c18c80eb307ac83c1fd6a94fb15578456f8c4d6d"
     },
     {
       "path": "src/signing.mjs",
@@ -163,6 +228,11 @@
       "path": "test/concurrency.test.mjs",
       "bytes": 2271,
       "sha256": "b5bba18496e8224cf7fa97cae2a82652c95fd61071b6b801a16fba6794e5785d"
+    },
+    {
+      "path": "test/images.test.mjs",
+      "bytes": 5457,
+      "sha256": "17f0f4f7caeb58a70a52143f9113a7e3d893eba96d7b98b9d280207b161dd0df"
     },
     {
       "path": "test/live-smoke.mjs",

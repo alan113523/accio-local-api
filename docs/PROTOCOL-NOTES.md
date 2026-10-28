@@ -45,6 +45,10 @@ OAuth client ID、官方客户端公共 appKey、固定域名和原生模块相�
 
 ## 参考
 
+0.3.0 的图片输入沿用本地协议的 `inline_data` / `file_data`，工具图片置于对应函数结果旁保留像素。原生聊天图片响应暂不交付，使用明确错误代替静默忽略。
+
+可选 Codex 图片模块另行通过 `codex app-server` 的 `imageGeneration` 完成事件及 `savedPath` 获取文件，不接管 Accio 登录或模型路由；协议见 [Codex App Server](https://learn.chatgpt.com/docs/app-server)，源码来源与许可证见模块目录。
+
 - [Claude Opus 5.5 官方型号](https://platform.claude.com/docs/en/models/opus-5-5/overview)
 - [Haiku 4.5 官方型号与别名](https://platform.claude.com/docs/en/models/haiku-4-5/overview)
 - [AWS 官方 Bedrock 监控与流式指标](https://aws.amazon.com/cn/blogs/china/amazon-bedrock-monitoring-logging-practices/)

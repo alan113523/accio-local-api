@@ -1,0 +1,6 @@
+{
+  "codexBin": "codex",
+  "stateDir": "./state",
+  "outputDir": "./output",
+  "timeoutSeconds": 600
+}

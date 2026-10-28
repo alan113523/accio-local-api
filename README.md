@@ -6,7 +6,7 @@
 
 ![Node.js](https://img.shields.io/badge/Node.js-24%2B-339933?logo=nodedotjs&logoColor=white)
 ![Platforms](https://img.shields.io/badge/platform-macOS%20%7C%20Windows-blue)
-![Version](https://img.shields.io/badge/version-0.2.0-blue)
+![Version](https://img.shields.io/badge/version-0.3.0-blue)
 
 [快速开始](#快速开始) · [客户端配置](#客户端配置) · [接口](#接口) · [常见问题](#常见问题) · [支持范围](#支持范围与限制)
 
@@ -22,6 +22,8 @@
 | --- | --- |
 | 双协议 | `/v1/messages`、`/v1/chat/completions`，支持流式文本 |
 | 客户端工具 | 转发函数定义、调用及结果；工具在调用端执行 |
+| 图片输入 | PNG/JPEG/WebP；支持用户图片与工具结果中的图片 |
+| 可选生图 | 独立 Codex CLI MCP 模块，提供生图、改图和异步状态查询 |
 | 实时模型目录 | 从当前账号获取可见且未锁定的模型，按真实别名选择 |
 | 空间与额度 | 校验独立登录与官方所选空间；区分个人和团队订阅 |
 | 本地凭据 | macOS Keychain / Windows DPAPI CurrentUser |
@@ -128,11 +130,26 @@ curl http://127.0.0.1:18437/v1/messages \
 
 - 支持文本、流式、客户端函数工具与工具结果；服务本身不执行工具或读取业务文件。
 - 支持 OpenAI `reasoning_effort` 及 Anthropic adaptive thinking / `output_config.effort` 映射；不输出思考正文或签名，不支持 `budget_tokens`。
-- 不支持 Responses、精确 count_tokens、图片、文档、服务端工具或强制工具选择；不支持的请求会明确报错。
+- 支持 Anthropic `image` 与 OpenAI `image_url`，以及工具结果中的图片；支持 PNG/JPEG/WebP，仍受 8 MiB 请求体限制。
+- 兼容 Claude Code adaptive thinking 的 `omitted` / `updates` 展示提示，以及 `clear_thinking_20251015`、`keep=all` 的无操作上下文提示；不支持其他上下文编辑。
+- 原生聊天接口不交付结构化图片响应；遇到时明确报 `unsupported_image_response`，避免静默丢图。生成与编辑图片通过下述独立工具交付。
+- 不支持 Responses、精确 count_tokens、文档、服务端工具或强制工具选择；不支持的请求会明确报错。
 - 默认最多 50 个生成请求，单请求最多 120 秒。生成请求不自动重试；仅认证元数据有一次刷新重试。50 并发是本地限额，不能据此承诺上游吞吐。
 - 不添加身份、技能、记忆或规划提示词；上游云端是否添加隐藏内容无法独立证明。`auto_model=false`，不静默切换模型或账号。
 - 缺失 usage 时不编造估算；Messages 必填用量为 0 并标记 `accio_usage_unavailable`。
 - Cowork、长上下文及完整桌面工具能力未全面验证。macOS 的新版跨平台改动尚未在实机重新验收。
+
+## 可选：通过 Codex CLI 生图与改图
+
+[`integrations/codex-image`](integrations/codex-image/README.md) 提供独立 stdio MCP 服务：
+
+- `image_generate`：提交生图任务，立即返回 `job_id`。
+- `image_edit`：使用本机参考图编辑或生成图片。
+- `image_status`：查询任务，完成后取得真实文件路径、尺寸和可选内联图片。
+
+普通聊天仍走 Accio；图片工具通过已安装的 `codex app-server` 使用本人的 Codex 登录。两条调用链独立，安装主 API 不会自动登记或启动图片工具。**生图使用 Codex 额度，不包含在 Accio 订阅中，也没有自动 API Key 回退。** [官方生图与额度说明](https://learn.chatgpt.com/docs/image-generation)。
+
+该模块复用 [qiaomu-codex-imagegen](https://github.com/joeseesun/qiaomu-codex-imagegen) 的 MIT 核心实现，并保留[许可证](integrations/codex-image/LICENSE)和[来源说明](integrations/codex-image/PROVENANCE.txt)。无 npm 运行依赖；Windows 路径、异步任务及文件交付已验证，macOS 尚未实机验收。
 
 ## 常见问题
 

@@ -1,6 +1,6 @@
 {
   "name": "accio-local-api",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node src/server.mjs",
-    "test": "node --test test/*.test.mjs"
+    "test": "node --test test/*.test.mjs integrations/codex-image/test/*.test.mjs"
   },
   "description": "Local Accio subscription bridge for Anthropic Messages and OpenAI Chat Completions"
 }

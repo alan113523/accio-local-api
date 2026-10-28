@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { ApiError } from './auth.mjs';
+import { imagePart } from './images.mjs';
 
 const fail = message => { throw new ApiError(400, 'unsupported_request', message); };
 function text(value, label) {
@@ -34,11 +35,31 @@ function toolResponse(value) {
   catch { return JSON.stringify({ result: value }); }
 }
 
+function messageParts(value, protocol, label) {
+  if (value == null) return [];
+  if (typeof value === 'string') return value ? [{ text: value, thought: false }] : [];
+  if (!Array.isArray(value)) fail(`${label} must contain text or images`);
+  return value.map(block => {
+    if (block?.type === 'text' && typeof block.text === 'string') return { text: block.text, thought: false };
+    const image = imagePart(block, protocol);
+    if (image) return image;
+    return fail('Supported message content blocks are text and images');
+  });
+}
+
+function toolResultParts(id, name, value, protocol) {
+  if (!Array.isArray(value)) return [{ function_response: { id, name, response_json: toolResponse(value) } }];
+  const content = messageParts(value, protocol, 'tool result');
+  const response = { result: content.filter(part => 'text' in part).map(part => part.text).join('\n') };
+  return [{ function_response: { id, name, response_json: JSON.stringify(response) } },
+    ...content.filter(part => !('text' in part))];
+}
+
 export function convertRequest(body, protocol, model) {
   object(body, 'request');
   const allowed = new Set(['model', 'messages', 'stream', 'max_tokens', 'max_completion_tokens', 'temperature', 'top_p', 'stop',
     'stop_sequences', 'system', 'reasoning_effort', 'output_config', 'tools', 'tool_choice', 'stream_options', 'n', 'store',
-    'metadata', 'user', 'parallel_tool_calls', 'thinking']);
+    'metadata', 'user', 'parallel_tool_calls', 'thinking', 'context_management']);
   if (Object.keys(body).some(key => !allowed.has(key))) fail('Request contains an unsupported parameter');
   if (body.output_config && Object.keys(body.output_config).some(key => key !== 'effort')) fail('Only output_config.effort is supported');
   if (body.max_tokens != null && body.max_completion_tokens != null) fail('Use either max_tokens or max_completion_tokens');
@@ -47,10 +68,19 @@ export function convertRequest(body, protocol, model) {
   if (body.n != null && body.n !== 1) fail('Only n=1 is supported');
   if (body.store === true || body.logprobs || body.response_format || body.seed != null) fail('Storage, logprobs, seeded sampling, and response_format are not supported');
   if (body.parallel_tool_calls === false) fail('Serial tool choice is not supported by this Accio transport');
+  if (body.context_management != null) {
+    const context = object(body.context_management, 'context_management');
+    if (protocol !== 'anthropic' || Object.keys(context).some(key => key !== 'edits') || !Array.isArray(context.edits) ||
+      context.edits.some(edit => !edit || Object.keys(edit).some(key => !['type', 'keep'].includes(key)) ||
+        edit.type !== 'clear_thinking_20251015' || edit.keep !== 'all')) {
+      fail('Only the no-op context_management clear_thinking with keep=all is supported');
+    }
+  }
   if (body.thinking != null) {
     const thinking = object(body.thinking, 'thinking');
     const adaptive = protocol === 'anthropic' && thinking.type === 'adaptive';
-    if (Object.keys(thinking).some(key => key !== 'type') || (thinking.type !== 'disabled' && !adaptive)) {
+    const hiddenDisplay = adaptive && ['omitted', 'updates'].includes(thinking.display);
+    if (Object.keys(thinking).some(key => key !== 'type' && !(key === 'display' && hiddenDisplay)) || (thinking.type !== 'disabled' && !adaptive)) {
       fail('Use Anthropic adaptive thinking or reasoning_effort; thinking token budgets and signed thinking blocks are not supported');
     }
   }
@@ -86,10 +116,9 @@ export function convertRequest(body, protocol, model) {
       if (message.role === 'tool') {
         const id = toolId(message.tool_call_id), name = names.get(id);
         if (!name) fail('Tool result must match an earlier assistant tool call');
-        parts.push({ function_response: { id, name, response_json: toolResponse(message.content) } });
+        parts.push(...toolResultParts(id, name, message.content, protocol));
       } else {
-        const content = text(message.content, 'content');
-        if (content) parts.push({ text: content, thought: false });
+        parts.push(...messageParts(message.content, protocol, 'content'));
         if (message.tool_calls != null) {
           if (message.role !== 'assistant' || !Array.isArray(message.tool_calls)) fail('tool_calls must belong to an assistant message');
           for (const call of message.tool_calls) {
@@ -105,7 +134,9 @@ export function convertRequest(body, protocol, model) {
       const blocks = typeof message.content === 'string' ? [{ type: 'text', text: message.content }] : message.content;
       if (!Array.isArray(blocks)) fail('Invalid message content');
       for (const block of blocks) {
-        if (block.type === 'text') {
+        if (block?.type === 'image') {
+          parts.push(imagePart(block, protocol));
+        } else if (block?.type === 'text') {
           if (typeof block.text !== 'string') fail('Invalid text block');
           parts.push({ text: block.text, thought: false });
         } else if (block.type === 'tool_use' && message.role === 'assistant') {
@@ -114,8 +145,8 @@ export function convertRequest(body, protocol, model) {
         } else if (block.type === 'tool_result' && message.role === 'user') {
           const id = toolId(block.tool_use_id), name = names.get(id);
           if (!name) fail('Tool result must match an earlier tool_use');
-          parts.push({ function_response: { id, name, response_json: toolResponse(block.content) } });
-        } else fail('This release supports text, tool_use, and tool_result blocks only');
+          parts.push(...toolResultParts(id, name, block.content, protocol));
+        } else fail('Supported content blocks are text, image, tool_use, and tool_result');
       }
     }
     if (parts.length) request.contents.push({ role: message.role === 'assistant' ? 'model' : 'user', parts });
@@ -159,6 +190,10 @@ export class Completion {
   }
   apply(frame) {
     const events = [];
+    if ((frame.content?.parts || []).some(part => part.thought !== true &&
+      (part.inline_data || part.inlineData || part.file_data || part.fileData))) {
+      throw new ApiError(502, 'unsupported_image_response', 'Accio returned structured media that this chat protocol cannot deliver. Use an image tool to receive image files; the response was not discarded silently.');
+    }
     this.usage = usageFromFrame(frame) || this.usage;
     const reason = frame.finish_reason ?? frame.finishReason;
     if (reason && /max|length/i.test(reason)) this.finish = 'length';
