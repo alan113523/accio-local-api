@@ -9,6 +9,7 @@ import { pathToFileURL } from 'node:url';
 import { AccioAuth, ApiError } from './auth.mjs';
 import { AccioClient } from './accio.mjs';
 import { convertRequest, Completion } from './protocol.mjs';
+import { AccioImages } from './media.mjs';
 
 const installSettingsPath = new URL('../windows-install.json', import.meta.url);
 const API_VERSION = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version;
@@ -61,11 +62,12 @@ function errorBody(error, protocol) {
     : { error: { message, type: code, code } };
 }
 
-export function createApi({ key, auth, client, timeoutMs = 120000, concurrency = 50 }) {
+export function createApi({ key, auth, client, images, timeoutMs = 120000, imageTimeoutMs = 360000, concurrency = 50 }) {
   const active = new Set();
   const server = http.createServer(async (req, res) => {
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    const imageRequest = req.method === 'POST' && /^\/v1\/images\/(generations|edits)(?:\?|$)/.test(req.url);
+    const timer = setTimeout(() => controller.abort(), imageRequest ? imageTimeoutMs : timeoutMs);
     res.on('close', () => { if (!res.writableFinished) controller.abort(); });
     let protocol = 'openai', reserved = false;
     try {
@@ -95,7 +97,7 @@ export function createApi({ key, auth, client, timeoutMs = 120000, concurrency =
       if (req.method === 'POST' && url.pathname === '/auth/start') return json(res, 200, { url: auth.begin(`http://127.0.0.1:${port}`) });
       if (req.method === 'GET' && url.pathname === '/status') return json(res, 200, {
         authenticated: Boolean(auth.credentials), modelCount: client.catalog?.length ?? 0, addedSystemPromptChars: 0,
-        upstream: 'phoenix-gw.alibaba.com', agentWorkflow: false, apis: ['/v1/chat/completions', '/v1/messages'],
+        upstream: 'phoenix-gw.alibaba.com', agentWorkflow: false, apis: ['/v1/chat/completions', '/v1/messages', ...(images ? ['/v1/images/generations', '/v1/images/edits'] : [])],
         generationConcurrencyLimit: concurrency, activeGenerationRequests: active.size,
       });
       if (req.method === 'GET' && url.pathname === '/quota') return json(res, 200, await client.quota(controller.signal));
@@ -109,10 +111,14 @@ export function createApi({ key, auth, client, timeoutMs = 120000, concurrency =
       if (url.pathname === '/v1/responses' || url.pathname === '/v1/messages/count_tokens') {
         throw new ApiError(501, 'unsupported_endpoint', 'This release supports Chat Completions and Messages; no exact token-count endpoint is available');
       }
-      if (req.method !== 'POST' || !['/v1/chat/completions', '/v1/messages'].includes(url.pathname)) throw new ApiError(404, 'not_found', 'Unknown endpoint');
+      if (req.method !== 'POST' || !['/v1/chat/completions', '/v1/messages', '/v1/images/generations', '/v1/images/edits'].includes(url.pathname)) throw new ApiError(404, 'not_found', 'Unknown endpoint');
       if (active.size >= concurrency) throw new ApiError(429, 'local_capacity', `Local API generation concurrency limit (${concurrency}) reached`);
       active.add(controller); reserved = true;
       const body = await bodyJson(req);
+      if (imageRequest) {
+        if (!images) throw new ApiError(503, 'image_backend_unavailable', 'Accio image backend is unavailable');
+        return json(res, 200, await images.generate(body, url.pathname.endsWith('/edits'), controller.signal));
+      }
       const model = await client.resolve(body?.model, controller.signal);
       const request = convertRequest(body, protocol, model);
       const completion = new Completion(model);
@@ -183,7 +189,7 @@ export async function main() {
   const key = await apiKey();
   if (process.platform === 'win32') process.env.ACCIO_API_STATE_DIR = STATE_DIR;
   const auth = new AccioAuth(); await auth.init();
-  const server = createApi({ key, auth, client: new AccioClient(auth) });
+  const server = createApi({ key, auth, client: new AccioClient(auth), images: new AccioImages(auth) });
   await new Promise((resolve, reject) => { server.once('error', reject); server.listen(PORT, '127.0.0.1', resolve); });
   console.log(`Accio Local API ${API_VERSION} listening on http://127.0.0.1:${PORT}`);
   for (const signal of ['SIGTERM', 'SIGINT']) process.once(signal, () => { server.close(); server.closeAllConnections(); setTimeout(() => process.exit(0), 100).unref(); });

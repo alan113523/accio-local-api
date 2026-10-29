@@ -6,7 +6,7 @@
 
 ![Node.js](https://img.shields.io/badge/Node.js-24%2B-339933?logo=nodedotjs&logoColor=white)
 ![Platforms](https://img.shields.io/badge/platform-macOS%20%7C%20Windows-blue)
-![Version](https://img.shields.io/badge/version-0.3.0-blue)
+![Version](https://img.shields.io/badge/version-0.4.0-blue)
 
 [快速开始](#快速开始) · [客户端配置](#客户端配置) · [接口](#接口) · [常见问题](#常见问题) · [支持范围](#支持范围与限制)
 
@@ -23,7 +23,7 @@
 | 双协议 | `/v1/messages`、`/v1/chat/completions`，支持流式文本 |
 | 客户端工具 | 转发函数定义、调用及结果；工具在调用端执行 |
 | 图片输入 | PNG/JPEG/WebP；支持用户图片与工具结果中的图片 |
-| 可选生图 | 独立 Codex CLI MCP 模块，提供生图、改图和异步状态查询 |
+| 生图与改图 | Accio 原生图片接口；可选 MCP 支持 Accio / Codex 两个后端 |
 | 实时模型目录 | 从当前账号获取可见且未锁定的模型，按真实别名选择 |
 | 空间与额度 | 校验独立登录与官方所选空间；区分个人和团队订阅 |
 | 本地凭据 | macOS Keychain / Windows DPAPI CurrentUser |
@@ -46,7 +46,7 @@ flowchart LR
 
 | 平台 | 要求与验证边界 |
 | --- | --- |
-| Windows | x64、PowerShell 5.1+、Node.js 24+；本地适配基于 Accio 0.35.2 |
+| Windows | x64、PowerShell 5.1+、Node.js 24+；原生图片接入实测 Accio 0.36.2 |
 | macOS | Node.js 24+、系统 Python 3；历史验证为 Apple Silicon、Accio 0.34.5 |
 | 账号 | 自行安装官方 Accio，使用自己的账号并选择有效个人或团队空间 |
 
@@ -123,6 +123,8 @@ curl http://127.0.0.1:18437/v1/messages \
 | GET | `/quota` | 当前所选空间的订阅额度 |
 | POST | `/v1/messages` | Anthropic Messages |
 | POST | `/v1/chat/completions` | OpenAI Chat Completions |
+| POST | `/v1/images/generations` | Accio 原生生图，JSON 请求 |
+| POST | `/v1/images/edits` | Accio 原生改图，JSON + base64 参考图 |
 
 除健康检查和登录回调外均需 Key；支持 `Authorization: Bearer` 或 `x-api-key`。仅监听 `127.0.0.1`，不开放浏览器跨域访问。
 
@@ -134,12 +136,12 @@ curl http://127.0.0.1:18437/v1/messages \
 - 兼容 Claude Code adaptive thinking 的 `omitted` / `updates` 展示提示，以及 `clear_thinking_20251015`、`keep=all` 的无操作上下文提示；不支持其他上下文编辑。
 - 原生聊天接口不交付结构化图片响应；遇到时明确报 `unsupported_image_response`，避免静默丢图。生成与编辑图片通过下述独立工具交付。
 - 不支持 Responses、精确 count_tokens、文档、服务端工具或强制工具选择；不支持的请求会明确报错。
-- 默认最多 50 个生成请求，单请求最多 120 秒。生成请求不自动重试；仅认证元数据有一次刷新重试。50 并发是本地限额，不能据此承诺上游吞吐。
-- 不添加身份、技能、记忆或规划提示词；上游云端是否添加隐藏内容无法独立证明。`auto_model=false`，不静默切换模型或账号。
+- 默认最多 50 个生成请求，聊天请求最多 120 秒，图片请求最多 360 秒。生成请求不自动重试；仅认证元数据有一次刷新重试。50 并发是本地限额，不能据此承诺上游吞吐。
+- 不添加身份、技能、记忆或规划提示词；上游云端是否添加隐藏内容无法独立证明。聊天请求 `auto_model=false`，不静默切换模型或账号；图片响应另行返回上游实际模型及回退标记。
 - 缺失 usage 时不编造估算；Messages 必填用量为 0 并标记 `accio_usage_unavailable`。
 - Cowork、长上下文及完整桌面工具能力未全面验证。macOS 的新版跨平台改动尚未在实机重新验收。
 
-## 可选：通过 Codex CLI 生图与改图
+## 可选：通过 Accio 或 Codex 生图与改图
 
 [`integrations/codex-image`](integrations/codex-image/README.md) 提供独立 stdio MCP 服务：
 
@@ -147,7 +149,16 @@ curl http://127.0.0.1:18437/v1/messages \
 - `image_edit`：使用本机参考图编辑或生成图片。
 - `image_status`：查询任务，完成后取得真实文件路径、尺寸和可选内联图片。
 
-普通聊天仍走 Accio；图片工具通过已安装的 `codex app-server` 使用本人的 Codex 登录。两条调用链独立，安装主 API 不会自动登记或启动图片工具。**生图使用 Codex 额度，不包含在 Accio 订阅中，也没有自动 API Key 回退。** [官方生图与额度说明](https://learn.chatgpt.com/docs/image-generation)。
+图片工具可选两个后端：
+
+| 后端 | 所需环境 | 使用额度 |
+| --- | --- | --- |
+| `accio` | 本项目 0.4.0+ 正在运行，使用本人 Accio 登录 | Accio 图片额度；无需 Codex CLI 或 Codex 账号 |
+| `codex`（兼容默认值） | 已安装并登录的 Codex CLI | 本人的 Codex 额度；[官方说明](https://learn.chatgpt.com/docs/image-generation) |
+
+只有 Accio 的用户，将模块中的 `bridge.accio.example.json` 复制为 `bridge.json`，再按模块文档登记 MCP。自定义安装目录需设置 `accioApiKeyFile`，指向本人安装的 `state/api.key`。工具也接受 `backend: "accio"` 或 `backend: "codex"` 单次选择。失败不会自动改用另一个后端，也不会自动重发可能扣费的图片请求。
+
+Accio 后端默认使用原生模型代码 `gpt-image-2`；这是 Accio 网关中的图片模型选择，使用 Accio 额度。真实生图、参考图编辑和 MCP 文件交付已验证；其他原生模型代码的实际可用性受当前账号与上游服务影响。[原生图片接口与限制](docs/ACCIO-IMAGES.md)。安装主 API 不会自动登记或启动图片 MCP。
 
 该模块复用 [qiaomu-codex-imagegen](https://github.com/joeseesun/qiaomu-codex-imagegen) 的 MIT 核心实现，并保留[许可证](integrations/codex-image/LICENSE)和[来源说明](integrations/codex-image/PROVENANCE.txt)。无 npm 运行依赖；Windows 路径、异步任务及文件交付已验证，macOS 尚未实机验收。
 

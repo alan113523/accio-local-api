@@ -13,7 +13,7 @@ const label = 'com.local.accio-api';
 const agents = join(homedir(), 'Library/LaunchAgents');
 const plist = join(agents, label + '.plist');
 const stamp = new Date().toISOString().replace(/[:.]/g, '-');
-const files = ['package.json', 'README.md', 'src/auth.mjs', 'src/accio.mjs', 'src/protocol.mjs', 'src/images.mjs', 'src/server.mjs', 'src/cli.mjs', 'src/keychain.py', 'src/signing.mjs', 'src/native-signing.cjs'];
+const files = ['package.json', 'README.md', 'src/auth.mjs', 'src/accio.mjs', 'src/protocol.mjs', 'src/images.mjs', 'src/media.mjs', 'src/server.mjs', 'src/cli.mjs', 'src/keychain.py', 'src/signing.mjs', 'src/native-signing.cjs'];
 const exists = async path => access(path).then(() => true, () => false);
 if (await exists(plist)) {
   const old = await readFile(plist, 'utf8');

@@ -6,8 +6,14 @@ The accompanying LICENSE preserves the upstream notice.
 Local adaptation: Windows absolute paths, hidden process windows, exclusive
 output creation, explicit failed-turn handling, no alpha flattening, limited
 relay tools, and asynchronous MCP job submission/status to avoid call timeouts.
-Only Codex's saved CLI login is used; no OAuth tokens are extracted or copied.
-No fallback to API-key billing is enabled.
+The Codex backend uses Codex's saved CLI login; no Codex OAuth tokens are
+extracted or copied. No fallback to API-key billing is enabled.
+
+The optional Accio backend is a local adaptation using this project's existing
+local API authentication and task delivery. It sends image requests to the
+loopback API, which uses its own Accio grant and selected account/space checks.
+Native image REST request fields were checked against Accio 0.36.2 and tested
+on Windows. No official application code or private response is distributed.
 
 Official protocol: https://learn.chatgpt.com/docs/app-server
 Image usage: https://learn.chatgpt.com/docs/image-generation

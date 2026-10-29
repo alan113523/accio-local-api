@@ -1,0 +1,9 @@
+{
+  "backend": "accio",
+  "accioBaseUrl": "http://127.0.0.1:18437",
+  "accioModel": "gpt-image-2",
+  "accioResolution": "1K",
+  "stateDir": "./state",
+  "outputDir": "./output",
+  "timeoutSeconds": 360
+}

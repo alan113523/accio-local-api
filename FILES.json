@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "project": "accio-local-api",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "distribution": "sanitized cross-platform source snapshot",
   "files": [
     {
@@ -16,8 +16,8 @@
     },
     {
       "path": "CHANGELOG.md",
-      "bytes": 1217,
-      "sha256": "e1609ebe1c55216375ed8273d38ffec90fa3065e9b6160598ec2d124422f09fa"
+      "bytes": 1780,
+      "sha256": "0e755b3b65bbddb7f2cd0bbab2f4f5e0d62adc13cb588543d9945d2cf76105b7"
     },
     {
       "path": "EXCLUSIONS.md",
@@ -31,8 +31,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 10414,
-      "sha256": "59fdce56b0bb5ac059700f21502f1185f606345d1387151d8bb67b4182323bc1"
+      "bytes": 11462,
+      "sha256": "c6503b088f59495d27c35796ee817845c3687005fe1b022734f366ad900d9f9e"
+    },
+    {
+      "path": "docs/ACCIO-IMAGES.md",
+      "bytes": 4136,
+      "sha256": "ece7e4227d4d92bbd02356b0a0e44bd7fc6e69e5fa8dfd58aa9e76e030ece4d6"
     },
     {
       "path": "docs/CC-SWITCH-USAGE.md",
@@ -46,8 +51,8 @@
     },
     {
       "path": "docs/RELEASE-VALIDATION.md",
-      "bytes": 3066,
-      "sha256": "c4d616caa0d4b1e8c38fefb7bfb3e4b31f0fd5f0c2e06f6a34238a433798b08e"
+      "bytes": 5646,
+      "sha256": "9fdf916664d0f3c4292cc5dbbc870457860a30fc10c58b8992ca06676a32dd49"
     },
     {
       "path": "docs/VALIDATION.json",
@@ -66,8 +71,8 @@
     },
     {
       "path": "install-mac.mjs",
-      "bytes": 4025,
-      "sha256": "6812fcce2ad8c5e4708d9ff1e31f47eb2fc81f53099829d67ce2a3d58cd485a4"
+      "bytes": 4042,
+      "sha256": "1953e7e0a4dc6100b7628085868a616cf9d18fe96ccfb1e6421e3f55c957a5ab"
     },
     {
       "path": "install-windows.ps1",
@@ -81,13 +86,18 @@
     },
     {
       "path": "integrations/codex-image/PROVENANCE.txt",
-      "bytes": 708,
-      "sha256": "6113aa1e8f8e30a37d84cd23c00a93b5f27cf42d24bdc2f67ab5845dc2338cda"
+      "bytes": 1114,
+      "sha256": "ca87cae3e9980ce1ecd1f7ff7c382de761e746381ef5fe437bc95a7b86cef744"
     },
     {
       "path": "integrations/codex-image/README.md",
-      "bytes": 4399,
-      "sha256": "1d62da8b59ffe3e8a68cc4af3c7cec6800aac73f4577402911325f3dee928f2e"
+      "bytes": 6338,
+      "sha256": "08fe19a7948f5971cb6d4d273adc51f2c5eaaeb7ba2636329d67522c67c40543"
+    },
+    {
+      "path": "integrations/codex-image/bridge.accio.example.json",
+      "bytes": 204,
+      "sha256": "e7ebc88a6de667565c004d7f49d567b88765e0ec534cfd82a00f9c3bd83b3b37"
     },
     {
       "path": "integrations/codex-image/bridge.example.json",
@@ -100,14 +110,19 @@
       "sha256": "2d7c9fc29f8adcdcd2c71a2361185704e1c63dab2316907cad3ddbc97dbf5fd1"
     },
     {
+      "path": "integrations/codex-image/src/accio.mjs",
+      "bytes": 4573,
+      "sha256": "8ad47529eb7cc7de8d1cca15470683c0698c837b7cae45f906738dcae38f766a"
+    },
+    {
       "path": "integrations/codex-image/src/codex.mjs",
       "bytes": 12701,
       "sha256": "f6b7687acb02dc981171a1b1cac96de958bf77306960fa61af145e1c756e125f"
     },
     {
       "path": "integrations/codex-image/src/jobs.mjs",
-      "bytes": 6820,
-      "sha256": "0191f04e6269255aab3f7a6b5bff25d3258584f1146cada6c58fa63c60ae78f0"
+      "bytes": 7544,
+      "sha256": "a1d5573e35897397d5c0eecfbba51d5885c8f46ecdb9635658b37e7e4637384f"
     },
     {
       "path": "integrations/codex-image/src/mcp-server.mjs",
@@ -116,8 +131,13 @@
     },
     {
       "path": "integrations/codex-image/src/settings.mjs",
-      "bytes": 757,
-      "sha256": "0ee2cfd94ce8764ed21ee4703955cd5b477b81b217d8cdff82ad9120a57783d0"
+      "bytes": 1260,
+      "sha256": "ff8f1ca569c97cdbfa0ad86c1864d0ca32800065772fe61d39b2383e697808a9"
+    },
+    {
+      "path": "integrations/codex-image/test/accio.test.mjs",
+      "bytes": 4090,
+      "sha256": "6171e23a1a6133a1793e3f41f61f8e213bb59cb2657e4fd7dd6d9aef2e3264fe"
     },
     {
       "path": "integrations/codex-image/test/bridge.test.mjs",
@@ -131,8 +151,8 @@
     },
     {
       "path": "integrations/codex-image/test/settings.test.mjs",
-      "bytes": 1328,
-      "sha256": "0c67dded747d551ed6e806c0ca4c28c833e79a8831508f5e3db64ed01e949530"
+      "bytes": 1676,
+      "sha256": "3b44b5f852b05474afec307d8d19bf5498ade90a2dde528f2ba6933442e669f1"
     },
     {
       "path": "login-windows.ps1",
@@ -142,7 +162,7 @@
     {
       "path": "package.json",
       "bytes": 374,
-      "sha256": "6b78b0b35459b3108bc0fa3bf7b22c1f8aaaa5c5f06c5bc0b2d35cd3db7ad296"
+      "sha256": "99372512ac70614b7a502a373a949568e1a779c856b8c17ab28e6658829e7472"
     },
     {
       "path": "scripts/probe-cloud-models.mjs",
@@ -175,6 +195,11 @@
       "sha256": "f51adcc21cdf904020974d78439e93300b5fec7c0e35032098af6f5d6acd2801"
     },
     {
+      "path": "src/media.mjs",
+      "bytes": 6164,
+      "sha256": "2b37a3b71d783f2709d9f09c4cc70833ce4b1a8d301f5aafc3d359ef92eab844"
+    },
+    {
       "path": "src/native-signing.cjs",
       "bytes": 3113,
       "sha256": "2687e6502b733a1db78323b96c46e4ac0410f6b5088f2aa192dd96f8726bf635"
@@ -186,8 +211,8 @@
     },
     {
       "path": "src/server.mjs",
-      "bytes": 13295,
-      "sha256": "a5f3a3f3a9d8371092ac9db8c18c80eb307ac83c1fd6a94fb15578456f8c4d6d"
+      "bytes": 13916,
+      "sha256": "57629015950689fb08348bb1bb34cbc9a3fb44d8de898a4f3d2052eca76e9322"
     },
     {
       "path": "src/signing.mjs",
@@ -243,6 +268,11 @@
       "path": "test/live-tool-smoke.mjs",
       "bytes": 3850,
       "sha256": "578fac68255631926a15225632a19a09d24689f2361479f882c990e3895373e0"
+    },
+    {
+      "path": "test/media.test.mjs",
+      "bytes": 5276,
+      "sha256": "cad998a959f1b1e34b9c6fd26aba654c4055c231df4c46811c6e7aaa16abdc73"
     },
     {
       "path": "test/signing-concurrency.test.mjs",

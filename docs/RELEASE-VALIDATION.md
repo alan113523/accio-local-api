@@ -1,5 +1,18 @@
 # 发布验证
 
+## 0.4.0 — 2026-10-29
+
+平台：Windows x64、Node.js 24、Accio 0.36.2。以下为去个人化摘要；真实请求使用维护者本人现有 Accio 授权，未添加新账号或 OpenAI API Key。
+
+- 95 项离线测试通过，0 失败、0 跳过。新增覆盖原生图片请求/参考像素、当前空间与认证复用、本机 Key 的回环限制、响应校验、后端选择以及失败不重试/不跨后端回退；原有文本、Codex 和认证测试保持通过。
+- 静态检查当前官方客户端的图片 REST 请求字段，结合真实请求验证。`gpt-image-2` 生成及 base64 参考图编辑均返回有效 PNG，生成黄色纸船、编辑为红色纸船。媒体目录档位 ID `image_standard` 被真实 REST 请求拒绝，不作为可用模型代码发布。
+- 通过本版主 API + stdio MCP 提交 `backend=accio`，把 Codex 路径设为不存在，仍完成绿色纸船生成：实际文件 1024×1024、1,104,016 字节，`image_status` 同时返回 text 和 image 内容。Accio 返回 `fallbackApplied=false`。这个测试证明选中 Accio 时无需可执行的 Codex CLI，不代表测试电脑卸载了 Codex。
+- Claude CLI 通过现有本地网关调用 `image_status(include_image=true)`，工具结果包含实际 image 块（CLI 将 PNG 转为 JPEG 后发送），正确识别绿色纸船、浅蓝背景与倒影，并报告 Accio 后端和实际图片路径。部署后使用新启动的已安装 MCP 再次读取通过，只读取已完成任务，没有再次生成图片。第二次回答虽声称未收到内联图，保留的工具事件明确含图片；以实际事件确认交付，不将模型的自述当作协议证据。
+- 部署实例完成备份、源文件哈希对照和健康检查，版本显示 0.4.0；图片端点可见，非法目录档位在请求云端前返回 400。本机 API Key 保持不变，原默认 Codex 后端保留。
+- Windows 安装器在隔离新目录以 `-NoStart -NoStartup` 执行，包含 `media.mjs`、`images.mjs`、`server.mjs`；PowerShell 与新 JavaScript 模块语法检查通过。macOS 安装白名单已补入 `media.mjs`，本轮未做 macOS 实机验收。
+- Gemini 两个原生图片代码只确认请求字段与客户端存在性，未做真实图片调用。不能把本轮结果扩展为所有模型、账号、图片尺寸、未来 Accio 版本或 Claude Desktop 新会话 UI 均已验收。
+- 公开源码不包含官方解包代码、私人配置、图片、原始响应或现场日志；现成方案筛选与采用范围见 [Accio 图片说明](ACCIO-IMAGES.md)。
+
 ## 0.3.0 — 2026-10-28
 
 平台：Windows x64、Node.js 24。本节为去个人化验证摘要，不包含账号、客户端配置或原始调用记录。
